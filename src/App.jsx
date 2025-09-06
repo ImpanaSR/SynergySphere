@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Navbar from "./components/navbar";
+import Login from "./views/login";
+import Signup from "./views/Signup";
+import Projects from "./views/Projects";
+import ProjectTasks from "./views/ProjectTasks";
+import MyTasks from "./views/MyTasks";
+import ProjectForm from "./views/ProjectForm";
+import TaskForm from "./views/TaskForm";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        {/* Default route goes to login */}
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        {/* Login & Signup - no navbar */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Authenticated pages - show navbar */}
+        <Route
+          path="/projects"
+          element={
+            <>
+              <Navbar />
+              <Projects />
+            </>
+          }
+        />
+        <Route
+          path="/projects/:id"
+          element={
+            <>
+              <Navbar />
+              <ProjectTasks />
+            </>
+          }
+        />
+        <Route
+          path="/my-tasks"
+          element={
+            <>
+              <Navbar />
+              <MyTasks />
+            </>
+          }
+        />
+        <Route
+          path="/project-form"
+          element={
+            <>
+              <Navbar />
+              <ProjectForm />
+            </>
+          }
+        />
+        <Route
+          path="/task-form"
+          element={
+            <>
+              <Navbar />
+              <TaskForm />
+            </>
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
